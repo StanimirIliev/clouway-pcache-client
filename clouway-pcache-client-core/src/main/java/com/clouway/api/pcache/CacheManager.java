@@ -1,5 +1,8 @@
 package com.clouway.api.pcache;
 
+import java.util.List;
+import java.util.function.Function;
+
 /**
  * Represents s cache manager which is responsible for all caching operations.
  *
@@ -40,6 +43,23 @@ public interface CacheManager {
     * @return the object if it exists with the specified key in the cache
     */
    Object get(String key);
+
+    /**
+     * Gets a list of objects from the cache by their keys
+     *
+     * @param keys the keys of desired objects
+     * @return object representing the work done
+     */
+   <V> MatchResult<V> getAll(List<String> keys, Class<V> clazz);
+
+    /**
+     * Gets a list with cached objects by their keys and get missed from function
+     *
+     * @param keys the keys of desired objects
+     * @param getMissing the function which accepts the missed keys and should return list of their objects
+     * @return list of objects
+     */
+   <T> List<T> getAll(List<String> keys, Class<T> clazz, Function<List<String>, List<T>> getMissing);
 
    /**
     * Removes an object from the cache by it's key
